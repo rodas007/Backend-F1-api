@@ -1,9 +1,11 @@
 const mongoose = require('mongoose');
-const dotenv = require('dotenv');
+//const dotenv = require('dotenv');
+const path = require('path')
+require('dotenv').config({ path: path.resolve(__dirname,'../../../.env') });
 const Escuderias = require('../models/Escuderias.model');
 
 
-dotenv.config();
+//dotenv.config();
 const urlDb = process.env.MONGO_DB;
 
 const escuderias = [

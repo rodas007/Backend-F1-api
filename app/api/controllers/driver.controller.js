@@ -50,7 +50,33 @@ const getByName = async (req, res, next) => {
     }
 };
 
+const postDrivers = async (req, res, next) => {
+    try {
+      // Crearemos una instancia de character con los datos enviados
+      const newDrivers = new Driver({
+        name: req.body.name,
+        nationality: req.body.nationality,
+        birthDate: req.body.birthDate,
+		height: req.body.height,
+		weight: req.body.weight,
+        image: req.body.image,
+        debut: req.body.debut,
+        podium: req.body.podium,
+        victories: req.body.victories,
+        
+		
+      });
+  
+      // Guardamos el personaje en la DB
+      const createdDrivers = await newDrivers.save();
+      return res.status(201).json(createdDrivers);
+    } catch (error) {
+          // Lanzamos la función next con el error para que lo gestione Express
+      next(error);
+    }
+  };
 
 
 
-module.exports = { getAllDrivers, getByIdDriver, getByName }
+
+module.exports = { getAllDrivers, getByIdDriver, getByName ,postDrivers }

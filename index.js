@@ -1,33 +1,27 @@
 
 const express = require('express');
-const dotenv = require("dotenv");
-const {connect} = require('./app/config/db')
+require("dotenv").config();
+require('./app/config/db').connect();
 const escuderias = require("./app/api/routes/escuderias.routes")
 const drivers = require("./app/api/routes/driver.route");
 
-connect();
-dotenv.config();
+//connect();
+//dotenv.config();
 
 
 const PORT = process.env.PORT;
 const server = express();
+server.use(express.json());
+server.use(express.urlencoded({ extended: false }));
 
 
-server.use('/', escuderias);
+server.use('/escuderias', escuderias);
 server.use("/drivers", drivers);
 
 
 
 
-
-
-
-
-
-
-
-
-server.disable('x-powered-by');
+server.disable('x-powered-by');//para que no muestre que estamos usando node
 
 
 server.listen(PORT, () => {

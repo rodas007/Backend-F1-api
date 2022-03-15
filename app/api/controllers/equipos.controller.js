@@ -173,5 +173,26 @@ const getByMotor = async (req, res, next) => {
 }
 };
 
+const postEscuderias = async (req, res, next) => {
+    try {
+      // Crearemos una instancia de character con los datos enviados
+      const newEscuderia = new Escuderias({
+        equipo: req.body.equipo,
+        base: req.body.base,
+        pais: req.body.pais,
+		year: req.body.year,
+		director: req.body.director,
+		motor: req.body.motor,
+      });
+  
+      // Guardamos el personaje en la DB
+      const createdEscuderia = await newEscuderia.save();
+      return res.status(201).json(createdEscuderia);
+    } catch (error) {
+          // Lanzamos la función next con el error para que lo gestione Express
+      next(error);
+    }
+  };
 
-module.exports = { getAllEscuderias, getByEquipo , getById ,getByBase, getByPais ,getByYear ,getByDirector, getByMotor};
+
+module.exports = { getAllEscuderias, getByEquipo , getById ,getByBase, getByPais ,getByYear ,getByDirector, getByMotor, postEscuderias};

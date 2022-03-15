@@ -1,8 +1,10 @@
 const mongoose = require('mongoose')
-const dotenv = require('dotenv');
+//const dotenv = require('dotenv');
+const path = require('path')
+require('dotenv').config({ path: path.resolve(__dirname,'../../../.env') });
 const Driver = require("../models/Driver.model")
 
-dotenv.config();
+//dotenv.config();
 
 const urlDb = process.env.MONGO_DB;
 
