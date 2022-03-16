@@ -4,9 +4,10 @@ const Escuderias = require("../models/Escuderias.model");
 
 
 
+
 const getAllEscuderias = async (req, res, next) => {
     try {
-      const escuderias = await Escuderias.find();
+      const escuderias = await Escuderias.find().populate('driver');;
       return res.json({
         status: 200,
         message: HTTPSTATUSCODE[200],
@@ -212,4 +213,24 @@ const postEscuderias = async (req, res, next) => {
 };
 
 
-module.exports = { getAllEscuderias, getByEquipo , getById ,getByBase, getByPais ,getByYear ,getByDirector, getByMotor, postEscuderias, createPostEscuderias};
+const PutRelationDrivers = async (req, res, next) => {
+    try {
+        const { escuderiaId } = req.body;
+        const { driverId } = req.body;
+        const updatedEscuderia = await Escuderias.findByIdAndUpdate(
+            escuderiaId,
+            { $push: { driver: driverId } },
+            { new: true }
+        );
+        return res.status(200).json(updatedEscuderia);
+    } catch (error) {
+        return next(error);
+    }
+};
+
+
+
+
+
+
+module.exports = { getAllEscuderias, getByEquipo , getById ,getByBase, getByPais ,getByYear ,getByDirector, getByMotor, postEscuderias, createPostEscuderias,PutRelationDrivers};

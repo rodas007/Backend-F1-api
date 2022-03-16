@@ -1,11 +1,12 @@
 const express = require("express");
 const router = express.Router();
+const { isAuth } = require("../../middlewares/auth.middlewares");
 
 const { getAllDrivers, getByIdDriver, getByName, postDrivers, getByIdDelete,getByNamePut } = require("../controllers/driver.controller");
 //GET
 router.get('/', getAllDrivers);
 router.get("/id/:id", getByIdDriver);
-router.get('/name/:name', getByName);
+router.get('/name/:name',[isAuth], getByName);
 
 
 //POST

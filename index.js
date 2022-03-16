@@ -4,6 +4,7 @@ require("dotenv").config();
 require('./app/config/db').connect();
 require('./app/authentication/passport'); 
 const passport = require('passport');
+
 const escuderias = require("./app/api/routes/escuderias.routes")
 const drivers = require("./app/api/routes/driver.route");
 
@@ -24,6 +25,7 @@ server.use(passport.initialize())
 
 server.use('/', authRoutes);
 server.use('/users', userRoutes);
+
 server.use('/escuderias', escuderias);
 server.use("/drivers", drivers);
 

@@ -4,7 +4,7 @@ const router = express.Router();
 
 
 
-const { getAllEscuderias, getByEquipo, getById, getByBase, getByPais, getByYear, getByDirector, getByMotor,postEscuderias, createPostEscuderias} = require("../controllers/equipos.controller");
+const { getAllEscuderias, getByEquipo, getById, getByBase, getByPais, getByYear, getByDirector, getByMotor,postEscuderias, createPostEscuderias, PutRelationDrivers} = require("../controllers/equipos.controller");
 
 //GET
 router.get("/", getAllEscuderias);
@@ -21,6 +21,8 @@ router.post("/", postEscuderias);
 router.post("/create", createPostEscuderias);
 
 
+//PUT
+router.put('/addDriver',PutRelationDrivers);
 
 
 
