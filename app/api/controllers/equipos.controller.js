@@ -195,4 +195,21 @@ const postEscuderias = async (req, res, next) => {
   };
 
 
-module.exports = { getAllEscuderias, getByEquipo , getById ,getByBase, getByPais ,getByYear ,getByDirector, getByMotor, postEscuderias};
+
+  
+  const createPostEscuderias =  async (req, res, next) => {
+    try {
+        const newLocation = new Location({
+            name: req.body.name,
+            nationality: req.body.nationality,
+            drivers: []
+        });
+        const createdLocation = await newLocation.save();
+        return res.status(201).json(createdLocation);
+    } catch (error) {
+        next(error);
+    }
+};
+
+
+module.exports = { getAllEscuderias, getByEquipo , getById ,getByBase, getByPais ,getByYear ,getByDirector, getByMotor, postEscuderias, createPostEscuderias};

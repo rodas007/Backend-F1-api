@@ -4,7 +4,7 @@ const router = express.Router();
 
 
 
-const { getAllEscuderias, getByEquipo, getById, getByBase, getByPais, getByYear, getByDirector, getByMotor,postEscuderias} = require("../controllers/equipos.controller");
+const { getAllEscuderias, getByEquipo, getById, getByBase, getByPais, getByYear, getByDirector, getByMotor,postEscuderias, createPostEscuderias} = require("../controllers/equipos.controller");
 
 //GET
 router.get("/", getAllEscuderias);
@@ -18,6 +18,10 @@ router.get("/motor/:motor", getByMotor);
 
 //POST
 router.post("/", postEscuderias);
+router.post("/create", createPostEscuderias);
+
+
+
 
 
 
