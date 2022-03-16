@@ -76,7 +76,31 @@ const postDrivers = async (req, res, next) => {
     }
   };
 
+  const getByIdDelete = async (req, res, next) => {
+    try {
+        const {id} = req.params;
+        // No será necesaria asignar el resultado a una variable ya que vamos a eliminarlo
+        await Driver.findByIdAndDelete(id);
+        return res.status(200).json('Character deleted!');
+    } catch (error) {
+        return next(error);
+    }
+};
+
+const getByNamePut = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const characterModify = new Driver(req.body) ;
+        characterModify._id = id;
+        const characterUpdated = await Driver.findByIdAndUpdate(id, characterModify, { new: true });
+        return res.status(200).json(characterUpdated);
+    } catch (error) {
+        return next(error);
+    }
+};
 
 
 
-module.exports = { getAllDrivers, getByIdDriver, getByName ,postDrivers }
+
+
+module.exports = { getAllDrivers, getByIdDriver, getByName ,postDrivers , getByIdDelete,getByNamePut}
