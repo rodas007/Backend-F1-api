@@ -1,5 +1,7 @@
 
 const express = require('express');
+const cors = require('cors');
+const logger = require('morgan');
 require("dotenv").config();
 require('./app/config/db').connect();
 require('./app/authentication/passport'); 
@@ -15,6 +17,7 @@ const authRoutes = require('./app/api/routes/auth.routes');
 
 
 
+
 const PORT = process.env.PORT;
 const server = express();
 
@@ -23,11 +26,13 @@ server.use(express.json());
 server.use(express.urlencoded({ extended: false }));
 server.use(passport.initialize())
 
+
 server.use('/', authRoutes);
 server.use('/users', userRoutes);
 
 server.use('/escuderias', escuderias);
 server.use("/drivers", drivers);
+server.use(logger('dev'));
 
 server.use('*', (req, res, next) => {
   const error = new Error('Route not found');
@@ -38,6 +43,23 @@ server.use('*', (req, res, next) => {
 server.use((error, req, res, next) => {
   return res.status(error.status || 500).json(error.message || 'Unexpected error');
 });
+
+server.use((req, res, next) => {
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.header('Access-Control-Allow-Credentials', true);
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+});
+
+server.use(
+  cors({  
+origin: "*",
+credentials: true,
+  })
+)
+
+
+
 
 
 

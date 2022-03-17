@@ -7,7 +7,8 @@ const Escuderias = require("../models/Escuderias.model");
 
 const getAllEscuderias = async (req, res, next) => {
     try {
-      const escuderias = await Escuderias.find().populate('driver');;
+      //const escuderias = await Escuderias.find({}, { _id: 0 , "createdAt":0,"updatedAt":0 }).populate('driver'); //para qe no se vean los id y cuando se creo y actualizo
+	  const escuderias = await Escuderias.find().populate('driver');
       return res.json({
         status: 200,
         message: HTTPSTATUSCODE[200],
