@@ -3,8 +3,8 @@ const HTTPSTATUSCODE = require("../../utils/httpStatusCode");
 
 const getAllDrivers = async (req, res, next) => {
     try {
+        //const drivers = await Driver.find({},{"_id": 0,"team": 0});
         const drivers = await Driver.find();
-        
         return res.json({
             status: 200,
             message: HTTPSTATUSCODE[200],

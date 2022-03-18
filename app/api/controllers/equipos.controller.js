@@ -7,7 +7,7 @@ const Escuderias = require("../models/Escuderias.model");
 
 const getAllEscuderias = async (req, res, next) => {
     try {
-      //const escuderias = await Escuderias.find({}, { _id: 0 , "createdAt":0,"updatedAt":0 }).populate('driver'); //para qe no se vean los id y cuando se creo y actualizo
+      //const escuderias = await Escuderias.find({}, { "_id": 0 , "createdAt":0,"updatedAt":0, }).populate('driver',{ "_id": 0 , "createdAt":0,"updatedAt":0,"team":0 }); //para qe no se vean los id y cuando se creo y actualizo
 	  const escuderias = await Escuderias.find().populate('driver');
       return res.json({
         status: 200,
@@ -229,9 +229,35 @@ const PutRelationDrivers = async (req, res, next) => {
     }
 };
 
+//router.post('/uploads', [upload.single('picture'), uploadToCloudinary], async (req, res, next) => {
+	const postPicture = async (req, res, next) => {
+    try {
+        
+        // Crearemos una instancia de character con los datos enviados
+        const newEquip = new Escuderias({
+            name: req.body.name,
+            nationality: req.body.nationality,
+            picture: req.file_url,
+			pais: req.body.pais,
+			director: req.body.director,
+			motor: req.body.motor,
+			base: req.body.base,
+			equipo: req.body.equipo
+			
+    
+        });
+        // Guardamos el personaje en la DB
+        const createdCharacter = await newEquip.save();
+        return res.status(201).json(createdCharacter);
+    } catch (error) {
+        // Lanzamos la función next con el error para que lo gestione Express
+        next(error);
+    }
+};
 
 
 
 
 
-module.exports = { getAllEscuderias, getByEquipo , getById ,getByBase, getByPais ,getByYear ,getByDirector, getByMotor, postEscuderias, createPostEscuderias,PutRelationDrivers};
+
+module.exports = { getAllEscuderias, getByEquipo , getById ,getByBase, getByPais ,getByYear ,getByDirector, getByMotor, postEscuderias, createPostEscuderias,PutRelationDrivers,postPicture};

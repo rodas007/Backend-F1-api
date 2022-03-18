@@ -9,7 +9,7 @@ const escuderiasSchema = new Schema(
     year: { type: Number },
     director: { type: String, required: true },
     motor: { type: String, required: true },
-
+    picture: {type: String},
     driver: [{ type: mongoose.Types.ObjectId, ref: 'drivers' }],
   },
   {

@@ -71,7 +71,11 @@ router.post('/login', (req, res, next) => {
 
 router.post('/logout', [isAuth], (req, res, next) => {
     try {
+        
+        req.headers.authorization = null;
+        res.clearCookie('jwt')
         return res.json({
+            
             status: 200,
             message: HTTPSTATUSCODE[200],
             data: { token: null }
@@ -82,3 +86,9 @@ router.post('/logout', [isAuth], (req, res, next) => {
 });
 
 module.exports = router;
+
+
+
+
+
+

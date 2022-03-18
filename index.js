@@ -14,14 +14,18 @@ const drivers = require("./app/api/routes/driver.route");
 const userRoutes = require('./app/api/routes/user.routes');
 const authRoutes = require('./app/api/routes/auth.routes');
 
+const cloudinary = require('cloudinary').v2;
 
-
-
+cloudinary.config({ 
+  cloud_name: 'dvkne4kv7', 
+  api_key: '793666758637819', 
+  api_secret: 'p38DqNigwFPsKaMcOykJoixUr20' 
+});
 
 const PORT = process.env.PORT;
 const server = express();
 
-server.set("secretKey", "nodeRestApi");
+server.set("secretKey", process.env.KEY);
 server.use(express.json());
 server.use(express.urlencoded({ extended: false }));
 server.use(passport.initialize())
@@ -32,6 +36,7 @@ server.use('/users', userRoutes);
 
 server.use('/escuderias', escuderias);
 server.use("/drivers", drivers);
+
 server.use(logger('dev'));
 
 server.use('*', (req, res, next) => {
@@ -41,7 +46,7 @@ server.use('*', (req, res, next) => {
 });
 
 server.use((error, req, res, next) => {
-  return res.status(error.status || 500).json(error.message || 'Unexpected error');
+  return res.status(error.status || 500).json(error.message || 'Unexpected error');
 });
 
 server.use((req, res, next) => {
