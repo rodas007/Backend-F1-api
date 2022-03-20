@@ -17,9 +17,9 @@ const authRoutes = require('./app/api/routes/auth.routes');
 const cloudinary = require('cloudinary').v2;
 
 cloudinary.config({ 
-  cloud_name: 'dvkne4kv7', 
-  api_key: '793666758637819', 
-  api_secret: 'p38DqNigwFPsKaMcOykJoixUr20' 
+  cloud_name: process.env.cloud_name,
+  api_key: process.env.api_key,
+  api_secret: process.env.api_secret
 });
 
 const PORT = process.env.PORT;
