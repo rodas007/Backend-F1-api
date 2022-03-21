@@ -98,12 +98,19 @@ passport.serializeUser(function (user, done) {
 });
 
 
-// Esta función buscará un usuario dada su _id en la DB y populará req.user si existe
-passport.deserializeUser(async function (userId, done) {
+/* passport.deserializeUser(async function (userId, done) {
     try {
         const existingUser = await User.findById(userId);
         return done(null, existingUser);
     } catch (err) {
         return done(err);
     }
-});
+}); */// Esta función buscará un usuario dada su _id en la DB y populará req.user si existe
+
+
+
+passport.deserializeUser(function(id, done) {
+    User.findById(id, function(err, user) {
+      done(err, user);
+    });
+  });
