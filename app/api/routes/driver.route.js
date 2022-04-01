@@ -1,24 +1,27 @@
 const express = require("express");
 const router = express.Router();
 const { isAuth } = require("../../middlewares/auth.middlewares");
+const { uploadToCloudinary } = require("../../middlewares/file.middlewares")
+const { upload } = require("../../middlewares/file.middlewares")
 
-const { getAllDrivers, getByIdDriver, getByName, postDrivers, getByIdDelete,getByNamePut } = require("../controllers/driver.controller");
+
+const { getAllDrivers, getByIdDriver, getByName, postDrivers, getByIdDelete, putByid,getMongoIdDriver } = require("../controllers/driver.controller");
 //GET
 router.get('/', getAllDrivers);
-router.get("/id/:id", getByIdDriver);
-router.get('/name/:name',[isAuth], getByName);
-
+router.get('/:id', getByIdDriver);
+router.get('/name/:givenName', getByName);
+router.get('/id/:_id', getMongoIdDriver);
 
 //POST
 
-router.post("/", postDrivers);
 
+router.post("/", [ upload.single('picture'), uploadToCloudinary ], postDrivers);
 
 //DELETE
 router.delete('/:id', getByIdDelete);
 
 //PUT
-router.put('/:id', getByNamePut);
+router.put('/:id',  putByid);
 
 
 module.exports = router;

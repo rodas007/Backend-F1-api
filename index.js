@@ -22,10 +22,19 @@ cloudinary.config({
   api_secret: process.env.api_secret
 });
 
+
+
 const PORT = process.env.PORT;
 const server = express();
 
 server.set("secretKey", process.env.KEY);
+
+server.use(
+  cors({  
+origin: "*",
+credentials: true,
+  })
+)
 server.use(express.json());
 server.use(express.urlencoded({ extended: false }));
 server.use(passport.initialize())
@@ -35,7 +44,8 @@ server.use('/', authRoutes);
 server.use('/users', userRoutes);
 
 server.use('/escuderias', escuderias);
-server.use("/drivers", drivers);
+server.use('/drivers', drivers);
+
 
 server.use(logger('dev'));
 
@@ -51,18 +61,10 @@ server.use((error, req, res, next) => {
 
 server.use((req, res, next) => {
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-  res.header('Access-Control-Allow-Credentials', true);
+  res.header('Access-Control-Allow-Credentials', false);
   res.header('Access-Control-Allow-Headers', 'Content-Type');
   next();
-});
-
-server.use(
-  cors({  
-origin: "*",
-credentials: true,
-  })
-)
-
+}); 
 
 
 

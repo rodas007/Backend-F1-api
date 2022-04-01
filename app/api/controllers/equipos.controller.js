@@ -8,7 +8,7 @@ const Escuderias = require("../models/Escuderias.model");
 const getAllEscuderias = async (req, res, next) => {
     try {
       //const escuderias = await Escuderias.find({}, { "_id": 0 , "createdAt":0,"updatedAt":0, }).populate('driver',{ "_id": 0 , "createdAt":0,"updatedAt":0,"team":0 }); //para qe no se vean los id y cuando se creo y actualizo
-	  const escuderias = await Escuderias.find().populate('driver');
+	  const escuderias = await Escuderias.find();
       return res.json({
         status: 200,
         message: HTTPSTATUSCODE[200],
@@ -25,7 +25,7 @@ const getAllEscuderias = async (req, res, next) => {
 
 const getByEquipo = async (req, res, next) => {
     try {
-		const equipo = req.params.equipo;
+		const equipo = req.params.constructorId;
       const equipoFind = await Escuderias.find({equipo});
 	  if (equipoFind) {
 		return res.json({
@@ -48,7 +48,7 @@ const getByEquipo = async (req, res, next) => {
 const getById = async (req, res, next) => {
     try {
 		const id = req.params.id;
-      const EscuderiaFindId = await Escuderias.findById(id);
+      const EscuderiaFindId = await Escuderias.findOne({id});
 	  if (EscuderiaFindId) {
 		return res.json({
 			status: 200,
@@ -179,12 +179,13 @@ const postEscuderias = async (req, res, next) => {
     try {
       // Crearemos una instancia de character con los datos enviados
       const newEscuderia = new Escuderias({
-        equipo: req.body.equipo,
-        base: req.body.base,
-        pais: req.body.pais,
-		year: req.body.year,
-		director: req.body.director,
-		motor: req.body.motor,
+        id: req.body.id,
+        constructorId: req.body.constructorId,
+        url: req.body.url,
+		name: req.body.name,
+		nationality: req.body.nationality,
+		image: req.body.image,
+		
       });
   
       // Guardamos el personaje en la DB
@@ -202,9 +203,12 @@ const postEscuderias = async (req, res, next) => {
   const createPostEscuderias =  async (req, res, next) => {
     try {
         const newLocation = new Location({
-            name: req.body.name,
-            nationality: req.body.nationality,
-            drivers: []
+			id: req.body.id,
+        constructorId: req.body.constructorId,
+        url: req.body.url,
+		name: req.body.name,
+		nationality: req.body.nationality,
+		image: req.body.image,
         });
         const createdLocation = await newLocation.save();
         return res.status(201).json(createdLocation);
@@ -229,20 +233,26 @@ const PutRelationDrivers = async (req, res, next) => {
     }
 };
 
+
+
+
+
+
+
 //router.post('/uploads', [upload.single('picture'), uploadToCloudinary], async (req, res, next) => {
 	const postPicture = async (req, res, next) => {
     try {
         
         // Crearemos una instancia de character con los datos enviados
         const newEquip = new Escuderias({
-            name: req.body.name,
-            nationality: req.body.nationality,
-            picture: req.file_url,
-			pais: req.body.pais,
-			director: req.body.director,
-			motor: req.body.motor,
-			base: req.body.base,
-			equipo: req.body.equipo
+
+            
+			id: req.body.id,
+        	constructorId: req.body.constructorId,
+        	url: req.body.url,
+			name: req.body.name,
+			nationality: req.body.nationality,
+			image: req.file_url,
 			
     
         });

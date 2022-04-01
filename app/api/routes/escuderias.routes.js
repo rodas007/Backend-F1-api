@@ -10,13 +10,15 @@ const { getAllEscuderias, getByEquipo, getById, getByBase, getByPais, getByYear,
 
 //GET
 router.get("/", getAllEscuderias);
-router.get("/equipo/:equipo", getByEquipo);
-router.get("/id/:id", getById);
-router.get("/base/:base", getByBase);
-router.get("/pais/:pais", getByPais);
-router.get("/year/:year", getByYear);
-router.get("/director/:director", getByDirector);
-router.get("/motor/:motor", getByMotor);
+router.get(":equipo", getByEquipo);
+router.get("/:id", getById);
+router.get("/:base", getByBase);
+router.get("/:pais", getByPais);
+router.get("/:year", getByYear);
+router.get("/:director", getByDirector);
+router.get("/:motor", getByMotor);
+
+
 
 //POST
 router.post("/", postEscuderias);

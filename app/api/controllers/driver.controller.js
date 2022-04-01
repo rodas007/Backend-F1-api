@@ -15,21 +15,37 @@ const getAllDrivers = async (req, res, next) => {
     }
 };
 
+const getByName = async (req, res) => {
+    
+    try {
+        const name = req.params.givenName;
+        const driverByName = await Driver.find({name});
+        return res.status(200).json({        status: 200,
+            message: HTTPSTATUSCODE[200],
+            data: { drivers: driverByName }
+        });
+    } catch (error) {
+        return next(error);
+    }
+};
+
+
+
 const getByIdDriver = async (req, res, next) => {
     try {
         const id = req.params.id;
-        const driver = await Driver.findById(id);
+        const driver = await Driver.findOne({id});
         if (driver) {
             return res.json({
                 status: 200,
                 message: HTTPSTATUSCODE[200],
-                data: { driver: driver }
+                data: { drivers: driver }
             });
         } else {
             return res.json({
                 status: 404,
                 message: HTTPSTATUSCODE[404],
-                data: { driver: driver }
+               
             });
         }
     } catch (error) {
@@ -37,34 +53,40 @@ const getByIdDriver = async (req, res, next) => {
     }
 };
 
-const getByName = async (req, res, next) => {
+const getMongoIdDriver = async (req, res, next) => {
     try {
-        const name = req.params.name;
-        const authority = req.authority.id
-        const drivers = await Driver.find({name});
-        return res.json({
-            status: 200,
-            message: HTTPSTATUSCODE[200],
-            data: { drivers: drivers }
-        });
+        const id = req.params._id;
+        const driver = await Driver.findById(id);
+        if (driver) {
+            return res.json({
+                status: 200,
+                message: HTTPSTATUSCODE[200],
+                data: { drivers: driver }
+            });
+        } else {
+            return res.json({
+                status: 404,
+                message: HTTPSTATUSCODE[404],
+               
+            });
+        }
     } catch (error) {
         return next(error);
     }
 };
 
+
 const postDrivers = async (req, res, next) => {
     try {
       // Crearemos una instancia de character con los datos enviados
       const newDrivers = new Driver({
-        name: req.body.name,
+        
+       
+        permanentNumber: req.body.permanentNumber,
+        givenName: req.body.givenName,
+        familyName: req.body.familyName,
         nationality: req.body.nationality,
-        birthDate: req.body.birthDate,
-		height: req.body.height,
-		weight: req.body.weight,
-        image: req.body.image,
-        debut: req.body.debut,
-        podium: req.body.podium,
-        victories: req.body.victories,
+        image:  req.body.image,
         
 		
       });
@@ -89,7 +111,7 @@ const postDrivers = async (req, res, next) => {
     }
 };
 
-const getByNamePut = async (req, res, next) => {
+const putByid = async (req, res, next) => {
     try {
         const { id } = req.params;
         const characterModify = new Driver(req.body) ;
@@ -105,4 +127,9 @@ const getByNamePut = async (req, res, next) => {
 
 
 
-module.exports = { getAllDrivers, getByIdDriver, getByName ,postDrivers , getByIdDelete,getByNamePut}
+
+
+
+
+
+module.exports = { getAllDrivers, getByIdDriver, getByName ,postDrivers , getByIdDelete, putByid,getMongoIdDriver}
